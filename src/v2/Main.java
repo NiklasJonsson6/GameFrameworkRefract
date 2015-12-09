@@ -25,7 +25,5 @@ public class Main {
         // Open the window
         frame.setVisible(true);
         frame.requestFocus();
-
-        //adding a comment tets
     }
 }
