@@ -10,7 +10,7 @@ import java.awt.*;
  * it is told what size and position that
  * should be used to paint it.
  */
-public class RoundTile extends GameTile {
+public class RoundTile implements GameTile {
 
     /**
      * The color of the circle

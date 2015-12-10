@@ -2,7 +2,7 @@ package v3;
 
 import java.awt.*;
 
-public class CrossTile extends GameTile {
+public class CrossTile implements GameTile {
     /**
      * The color of the cross
      */

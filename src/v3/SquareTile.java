@@ -2,7 +2,7 @@ package v3;
 
 import java.awt.*;
 
-public class SquareTile extends GameTile {
+public class SquareTile implements GameTile {
     private final Color fillColor;
     private final Color strokeColor;
     private final Stroke stroke;
