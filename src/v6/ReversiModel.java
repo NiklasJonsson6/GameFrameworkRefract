@@ -1,8 +1,7 @@
-package v4;
+package v6;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
-import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 
@@ -366,6 +365,10 @@ public class ReversiModel implements GameModel {
      */
     public Dimension getGameboardSize() {
         return Constants.getGameSize();
+    }
+
+    public int getUpdateSpeed() {
+        return 0;
     }
 
     public void addObserver(PropertyChangeListener observer) {

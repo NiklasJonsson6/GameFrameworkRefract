@@ -1,4 +1,4 @@
-package v4;
+package v6;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
@@ -256,6 +256,10 @@ public class GoldModel implements GameModel {
      */
     public Dimension getGameboardSize() {
         return Constants.getGameSize();
+    }
+
+    public int getUpdateSpeed() {
+        return 200;
     }
 
     public void addObserver(PropertyChangeListener observer) {
