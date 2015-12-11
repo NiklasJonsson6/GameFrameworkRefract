@@ -2,6 +2,8 @@ package v4;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -98,6 +100,8 @@ public class GoldModel implements GameModel {
     private int score;
 
     private GameTile[][] gameboardState;
+
+    private PropertyChangeSupport changes = new PropertyChangeSupport(this);
 
     /**
      * Create a new model for the gold game.
@@ -252,5 +256,12 @@ public class GoldModel implements GameModel {
      */
     public Dimension getGameboardSize() {
         return Constants.getGameSize();
+    }
+
+    public void addObserver(PropertyChangeListener observer) {
+        this.changes.addPropertyChangeListener(observer);
+    }
+    public void removeObserver(PropertyChangeListener observer) {
+        this.changes.removePropertyChangeListener(observer);
     }
 }

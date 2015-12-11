@@ -2,6 +2,9 @@ package v4;
 
 import java.awt.*;
 import java.awt.event.KeyEvent;
+import java.beans.PropertyChangeEvent;
+import java.beans.PropertyChangeListener;
+import java.beans.PropertyChangeSupport;
 
 /**
  * A somewhat defective implementation of the game Reversi. The purpose
@@ -84,6 +87,8 @@ public class ReversiModel implements GameModel {
     private final int width;
     private final int height;
     private boolean gameOver;
+
+    private PropertyChangeSupport changes = new PropertyChangeSupport(this);
 
 
     public ReversiModel() {
@@ -360,5 +365,12 @@ public class ReversiModel implements GameModel {
      */
     public Dimension getGameboardSize() {
         return Constants.getGameSize();
+    }
+
+    public void addObserver(PropertyChangeListener observer) {
+        this.changes.addPropertyChangeListener(observer);
+    }
+    public void removeObserver(PropertyChangeListener observer) {
+        this.changes.removePropertyChangeListener(observer);
     }
 }
