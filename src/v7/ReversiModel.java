@@ -87,7 +87,7 @@ public class ReversiModel implements GameModel {
     private final int height;
     private boolean gameOver;
 
-    private PropertyChangeSupport changes = new PropertyChangeSupport(this);
+    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
 
     public ReversiModel() {
@@ -136,8 +136,6 @@ public class ReversiModel implements GameModel {
     /**
      * Update the direction of the collector
      * according to the users keypress.
-     *
-     * @throws GameOverException
      */
     private Direction updateDirection(final int key) {
         switch (key) {
@@ -303,7 +301,7 @@ public class ReversiModel implements GameModel {
      *
      * @param lastKey The most recent keystroke.
      */
-
+    @Override
     public void gameUpdate(final int lastKey) throws GameOverException {
         if (!this.gameOver) {
             Position nextCursorPos = getNextCursorPos(updateDirection(lastKey));
@@ -317,22 +315,18 @@ public class ReversiModel implements GameModel {
                             Math.min(nextCursorPos.getY(), boardSize.height - 1));
             nextCursorPos = new Position(nextX, nextY);
             this.cursorPos = nextCursorPos;
-            changes.firePropertyChange("GameboardState", null, null);
+            pcs.firePropertyChange("GameboardState", null, null);
         } else {
             throw new GameOverException(this.blackScore - this.whiteScore);
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public GameTile getGameboardState(final Position pos) {
         return getGameboardState(pos.getX(), pos.getY());
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public GameTile getGameboardState(final int x, final int y) {
         GameTile t = blankTile;
         if (board[x][y] == PieceColor.BLACK) {
@@ -352,21 +346,23 @@ public class ReversiModel implements GameModel {
         return t;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public Dimension getGameboardSize() {
         return Constants.getGameSize();
     }
 
+    @Override
     public int getUpdateSpeed() {
         return 0;
     }
 
+    @Override
     public void addObserver(PropertyChangeListener observer) {
-        this.changes.addPropertyChangeListener(observer);
+        pcs.addPropertyChangeListener(observer);
     }
+
+    @Override
     public void removeObserver(PropertyChangeListener observer) {
-        this.changes.removePropertyChangeListener(observer);
+        pcs.removePropertyChangeListener(observer);
     }
 }

@@ -74,7 +74,7 @@ public class GoldModel implements GameModel {
     /**
      * A list containing the positions of all coins.
      */
-    private final List<Position> coins = new ArrayList<Position>();
+    private final List<Position> coins = new ArrayList<>();
 	/*
 	 * The declaration and object creation above uses the new language feature
 	 * 'generic types'. It can be declared in the old way like this:
@@ -101,7 +101,7 @@ public class GoldModel implements GameModel {
 
     private GameTile[][] gameboardState;
 
-    private PropertyChangeSupport changes = new PropertyChangeSupport(this);
+    private PropertyChangeSupport pcs = new PropertyChangeSupport(this);
 
     /**
      * Create a new model for the gold game.
@@ -225,7 +225,8 @@ public class GoldModel implements GameModel {
 
         // Add a new coin (simulating moving one coin)
         addCoin();
-        changes.firePropertyChange("GameboardState", null, null);
+
+        pcs.firePropertyChange("GameboardState", null, null);
     }
 
     /**
@@ -237,35 +238,33 @@ public class GoldModel implements GameModel {
                 || pos.getY() < 0 || pos.getY() >= getGameboardSize().height;
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public GameTile getGameboardState(final Position pos) {
         return getGameboardState(pos.getX(), pos.getY());
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public GameTile getGameboardState(final int x, final int y) {
-        return this.gameboardState[x][y];
+        return gameboardState[x][y];
     }
 
-    /**
-     * {@inheritDoc}
-     */
+    @Override
     public Dimension getGameboardSize() {
         return Constants.getGameSize();
     }
 
+    @Override
     public int getUpdateSpeed() {
         return 200;
     }
 
+    @Override
     public void addObserver(PropertyChangeListener observer) {
-        this.changes.addPropertyChangeListener(observer);
+        pcs.addPropertyChangeListener(observer);
     }
+
+    @Override
     public void removeObserver(PropertyChangeListener observer) {
-        this.changes.removePropertyChangeListener(observer);
+        pcs.removePropertyChangeListener(observer);
     }
 }

@@ -11,7 +11,7 @@ public class ReversiFactory implements IGameFactory {
      */
     @Override
     public String[] getGameNames() {
-        return new String[]{"Gold", "Reversi"};
+        return new String[]{"Gold", "Reversi", "Snake"};
     }
 
     /**
@@ -22,14 +22,16 @@ public class ReversiFactory implements IGameFactory {
      */
     @Override
     public GameModel createGame(final String gameName) {
-        if (gameName.equals("Gold")) {
-            return new GoldModel();
-        } else if (gameName.equals("Reversi")) {
-            ReversiModel rev = new ReversiModel();
-            rev.addObserver(new ReversiScoreView());
-            return rev;
+        switch (gameName) {
+            case "Gold":
+                return new GoldModel();
+            case "Reversi":
+                ReversiModel rev = new ReversiModel();
+                rev.addObserver(new ReversiScoreView());
+                return rev;
+            case "Snake":
+                return new SnakeModel();
         }
-
         throw new IllegalArgumentException("No such game: " + gameName);
     }
 }
