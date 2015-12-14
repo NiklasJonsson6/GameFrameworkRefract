@@ -5,21 +5,13 @@ import java.beans.PropertyChangeListener;
 
 class ReversiScoreView implements PropertyChangeListener {
 
-    //To avoid a print unless score changed
-    String previousOutput = "";
-
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getSource().getClass().equals(ReversiModel.class)) {
+        if (evt.getSource().getClass().equals(ReversiModel.class)
+                && evt.getPropertyName().equals("ReversiScore")) {
             ReversiModel rev = (ReversiModel)evt.getSource();
-
             String output = "Bong! White: " + rev.getWhiteScore()
                     + "\tBlack: " + rev.getBlackScore();
-
-            if (!output.equals(previousOutput)) {
-                System.out.println(output);
-            }
-
-            previousOutput = output;
+            System.out.println(output);
         }
     }
 }

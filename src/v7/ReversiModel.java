@@ -188,6 +188,7 @@ public class ReversiModel implements GameModel {
 
             this.blackScore += Math.max(0, blackResult);
             this.whiteScore += Math.max(0, whiteResult);
+            pcs.firePropertyChange("ReversiScore", null, null);
 
             for (int i = 0; i < 8; i++) {
                 Direction d = Direction.values()[i];

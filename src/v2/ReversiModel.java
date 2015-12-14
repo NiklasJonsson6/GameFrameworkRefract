@@ -348,7 +348,7 @@ public class ReversiModel implements GameModel {
 
         if (cursorPos.equals(new Position(x, y))) {
             if (canTurn(turn, cursorPos)) {
-                t = new CompositeTile(t, turn == turn.BLACK ? cursorBlackTile : cursorWhiteTile);
+                t = new CompositeTile(t, turn == Turn.BLACK ? cursorBlackTile : cursorWhiteTile);
             } else {
                 t = new CompositeTile(t, cursorRedTile);
             }

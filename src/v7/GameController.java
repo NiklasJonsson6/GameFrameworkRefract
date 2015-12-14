@@ -82,8 +82,18 @@ public class GameController implements Runnable {
      * Add a key press to the end of the queue
      */
     private synchronized void enqueueKeyPress(final int key) {
-        this.keypresses.add(Integer.valueOf(key));
-        this.notifyAll();
+        if (gameModel.getUpdateSpeed() > 0) {
+            this.keypresses.add(Integer.valueOf(key));
+        } else {
+            if (isRunning) {
+                try {
+                    gameModel.gameUpdate(key);
+                } catch (GameOverException e) {
+                    System.out.println("Game over: " + e.getScore());
+                    this.isRunning = false;
+                }
+            }
+        }
     }
 
     /**
@@ -120,8 +130,11 @@ public class GameController implements Runnable {
         this.isRunning = true;
 
         // Create the new thread and start it...
-        this.gameThread = new Thread(this);
-        this.gameThread.start();
+        if (gameModel.getUpdateSpeed() > 0) {
+            this.gameThread = new Thread(this);
+            this.gameThread.start();
+        }
+
     }
 
     /**
@@ -131,10 +144,6 @@ public class GameController implements Runnable {
         // Setting isRunning to false will
         // make the thread stop (see run())
         this.isRunning = false;
-
-        synchronized (this) {
-            this.notifyAll();
-        }
 
         // Unset the game model...
         this.view.setModel(null);
@@ -166,13 +175,7 @@ public class GameController implements Runnable {
                 // or 0 if no new keypress since last update.
                 this.gameModel.gameUpdate(nextKeyPress());
 
-                if(gameModel.getUpdateSpeed() == 0) {
-                    synchronized (this) {
-                        this.wait();
-                    }
-                } else {
-                    Thread.sleep(gameModel.getUpdateSpeed());
-                }
+                Thread.sleep(gameModel.getUpdateSpeed());
 
             } catch (GameOverException e) {
                 // we got a game over signal, time to exit...
