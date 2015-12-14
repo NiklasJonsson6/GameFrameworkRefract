@@ -123,6 +123,8 @@ public class GameView extends JComponent implements PropertyChangeListener {
             g.drawChars(message, 0, message.length, 50, 50);
         }
     }
+
+    @Override
     public void propertyChange(PropertyChangeEvent e) {
         repaint();
     }
